@@ -1,0 +1,14 @@
+# Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
+_commit: v4.3.3
+_src_path: https://github.com/jupyterlab/extension-template
+author_email: andy.botting@ardc.edu.au
+author_name: Andy Botting
+has_binder: false
+has_settings: false
+kind: theme
+labextension_name: '@nectar/jupyterlab-theme'
+project_short_description: Nectar JupyterLab theme
+python_name: nectar_jupyterlab_theme
+repository: https://github.com/NeCTAR-RC/nectar_jupyterlab_theme
+test: false
+

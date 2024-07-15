@@ -1,5 +1,4 @@
 import {
-//  ILabShell,
   JupyterFrontEnd,
   JupyterFrontEndPlugin
 } from '@jupyterlab/application';
@@ -7,18 +6,14 @@ import React from 'react';
 import {
   Dialog,
   ISplashScreen,
-//  IThemeManager,
   ReactWidget
 } from '@jupyterlab/apputils';
 import { ITranslator } from '@jupyterlab/translation';
 import { 
   jupyterFaviconIcon,
-//  jupyterIcon,
-//  jupyterlabWordmarkIcon
- } from '@jupyterlab/ui-components';
+} from '@jupyterlab/ui-components';
 import { DisposableDelegate } from '@lumino/disposable';
 import { Throttler } from '@lumino/polling';
-//import { Widget } from '@lumino/widgets';
 import { Header } from './header';
 
 /**
@@ -150,38 +145,6 @@ Would you like to clear the workspace or keep waiting?`),
   }
 };
 
-
-/**
- * The Nectar logos
- */
-/*
-const logo: JupyterFrontEndPlugin<void> = {
-    id: '@nectar/jupyterlab-theme:logo',
-    requires: [IThemeManager, ILabShell],
-    activate: (app: JupyterFrontEnd, manager: IThemeManager, shell: ILabShell) => {
-        const style = '@nectar/jupyterlab-theme/index.css';
-
-        // Create the nectar logo
-        const nectar_svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><polygon id="p3" style="fill:#F5B01A;" points="442.1,245.4 512,122.7 442.1,0 302.3,0 232.4,122.7 302.3,245.4 "/><polygon id="p2" style="fill:#F5B01A;" points="442.1,517.6 512,394.9 442.1,272.2 302.3,272.2 232.4,394.9 302.3,517.6 "/><polygon id="p1" style="fill:#F5B01A;" points="209.7,381.5 279.6,258.8 209.7,136.1 69.9,136.1 0,258.8 69.9,381.5 "/></svg>';
-        //const nectar_icon = new LabIcon({ name: 'ui-components:nectar', svgstr: nectar_svg });
-
-        // Set the icons elsewhere
-        jupyterFaviconIcon.svgstr = nectar_svg;
-        jupyterIcon.svgstr = nectar_svg;
-        jupyterlabWordmarkIcon.svgstr = nectar_svg;
-
-        // Register the plugin
-        manager.register({
-            name: 'nectar',
-            isLight: true,
-            themeScrollbars: true,
-            load: () => manager.loadCSS(style),
-            unload: () => Promise.resolve(undefined)
-        });
-    },
-    autoStart: true
-};
-*/
 /**
  * The Nectar header bar.
  */
@@ -209,7 +172,6 @@ const header: JupyterFrontEndPlugin<void> = {
  */
 const plugins: JupyterFrontEndPlugin<any>[] = [
   header,
-//  logo,
   splash
 ];
 export default plugins;

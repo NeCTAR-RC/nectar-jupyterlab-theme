@@ -1,16 +1,16 @@
-# Nectar JupyterLab Theme
+# Nectar JupyterLab theme
 
 
 ## Requirements
 
-* JupyterLab >= 3.0
+- JupyterLab >= 4.0.0
 
 ## Install
 
 To install the extension, execute:
 
 ```bash
-pip install https://github.com/NeCTAR-RC/nectar-jupyterlab-theme/master.zip
+pip install git+https://github.com/NeCTAR-RC/nectar-jupyterlab-theme.git
 ```
 
 ## Uninstall
