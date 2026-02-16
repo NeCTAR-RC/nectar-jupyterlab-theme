@@ -1,15 +1,15 @@
 {
     "name": "@nectar/jupyterlab-theme",
     "version": "2.0.0",
-    "description": "Nectar JupyterLab theme",
+    "description": "ARDC Nectar JupyterLab theme",
     "keywords": [
         "jupyter",
         "jupyterlab",
         "jupyterlab-extension"
     ],
-    "homepage": "https://github.com/NeCTAR-RC/nectar_jupyterlab_theme",
+    "homepage": "https://github.com/NeCTAR-RC/nectar-jupyterlab-theme",
     "bugs": {
-        "url": "https://github.com/NeCTAR-RC/nectar_jupyterlab_theme/issues"
+        "url": "https://github.com/NeCTAR-RC/nectar-jupyterlab-theme/issues"
     },
     "license": "Apache-2.0",
     "author": {
@@ -23,10 +23,9 @@
     ],
     "main": "lib/index.js",
     "types": "lib/index.d.ts",
-    "style": "style/index.css",
     "repository": {
         "type": "git",
-        "url": "https://github.com/NeCTAR-RC/nectar_jupyterlab_theme.git"
+        "url": "https://github.com/NeCTAR-RC/nectar-jupyterlab-theme.git"
     },
     "scripts": {
         "build": "jlpm build:lib && jlpm build:labextension:dev",
@@ -57,11 +56,11 @@
     "dependencies": {
         "@jupyterlab/application": "^4.0.0",
         "@jupyterlab/apputils": "^4.0.0",
-        "@material-ui/core": "^4.12.3",
-        "@material-ui/icons": "^4.11.2"
-    },
-    "resolutions": {
-        "@types/react": "^17.0.19"
+        "@jupyterlab/mainmenu": "^4.0.0",
+        "@jupyterlab/translation": "^4.0.0",
+        "@jupyterlab/ui-components": "^4.0.0",
+        "@lumino/disposable": "^2.0.0",
+        "@lumino/polling": "^2.0.0"
     },
     "devDependencies": {
         "@jupyterlab/builder": "^4.0.0",
@@ -74,7 +73,7 @@
         "eslint": "^8.36.0",
         "eslint-config-prettier": "^8.8.0",
         "eslint-plugin-prettier": "^5.0.0",
-        "npm-run-all": "^4.1.5",
+        "npm-run-all2": "^7.0.1",
         "prettier": "^3.0.0",
         "rimraf": "^5.0.1",
         "source-map-loader": "^1.0.2",
@@ -84,12 +83,14 @@
         "stylelint-config-standard": "^34.0.0",
         "stylelint-csstree-validator": "^3.0.0",
         "stylelint-prettier": "^4.0.0",
-        "typescript": "~5.0.2",
+        "typescript": "~5.5.4",
         "yjs": "^13.5.0"
     },
+    "resolutions": {
+        "lib0": "0.2.111"
+    },
     "sideEffects": [
-        "style/*.css",
-        "style/index.js"
+        "style/*.css"
     ],
     "publishConfig": {
         "access": "public"
@@ -191,6 +192,5 @@
             "alpha-value-notation": null,
             "color-function-notation": null
         }
-    },
-    "styleModule": "style/index.js"
+    }
 }

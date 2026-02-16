@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <polygon points="209.72 381.51 279.63 258.82 209.72 136.12 69.9 136.12 0 258.82 69.9 381.51 209.72 381.51" fill="#f5b01a" fill-opacity="0.5">
+    <animate attributeName="fill-opacity" values="0.5;1;1;0.5;0.5;0.5" dur="1.8s" />
+  </polygon>
+  <polygon points="442.1 245.39 512 122.69 442.1 0 302.28 0 232.37 122.69 302.28 245.39 442.1 245.39" fill="#f5b01a" fill-opacity="0.5">
+    <animate attributeName="fill-opacity" values="0.5;0.5;0.5;1;1;0.5" dur="1.8s" />
+  </polygon>
+  <polygon points="442.1 517.64 512 394.95 442.1 272.25 302.28 272.25 232.37 394.95 302.28 517.64 442.1 517.64" fill="#f5b01a" fill-opacity="1">
+    <animate attributeName="fill-opacity" values="1;0.5;0.5;0.5;0.5;1" dur="1.8s" />
+  </polygon>
+</svg>

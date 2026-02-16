@@ -11,6 +11,9 @@ nectar_jupyterlab_theme/labextension
 # Version file is handled by hatchling
 nectar_jupyterlab_theme/_version.py
 
+# Yarn cache
+.yarn/
+
 # Created by https://www.gitignore.io/api/python
 # Edit at https://www.gitignore.io/?templates=python
 
@@ -61,7 +64,6 @@ htmlcov/
 .coverage.*
 .cache
 nosetests.xml
-coverage/
 coverage.xml
 *.cover
 .hypothesis/
@@ -113,9 +115,3 @@ dmypy.json
 .pyre/
 
 # End of https://www.gitignore.io/api/python
-
-# OSX files
-.DS_Store
-
-# Yarn cache
-.yarn/

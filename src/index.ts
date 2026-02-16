@@ -1,20 +1,28 @@
 import {
+  ILabShell,
   JupyterFrontEnd,
   JupyterFrontEndPlugin
 } from '@jupyterlab/application';
-import React from 'react';
+import { IMainMenu } from '@jupyterlab/mainmenu';
 import {
   Dialog,
   ISplashScreen,
-  ReactWidget
+  IThemeManager,
+  showDialog
 } from '@jupyterlab/apputils';
 import { ITranslator } from '@jupyterlab/translation';
-import { 
+import {
   jupyterFaviconIcon,
-} from '@jupyterlab/ui-components';
+  jupyterIcon
+ } from '@jupyterlab/ui-components';
 import { DisposableDelegate } from '@lumino/disposable';
 import { Throttler } from '@lumino/polling';
-import { Header } from './header';
+import { Widget } from '@lumino/widgets';
+
+// Import logos
+import ardcLogoUrl from '../style/images/ardc-logo.svg';
+import nectarLogoUrl from '../style/images/nectar-logo.svg';
+import nectarLogoAnimatedUrl from '../style/images/nectar-logo-animated.svg';
 
 /**
  * The interval in milliseconds before recover options appear during splash.
@@ -58,18 +66,7 @@ const splash: JupyterFrontEndPlugin<ISplashScreen> = {
       stylesheet: 'splash'
     });
 
-    logo.innerHTML = `
-<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
-  <polygon points="209.72 381.51 279.63 258.82 209.72 136.12 69.9 136.12 0 258.82 69.9 381.51 209.72 381.51" fill="#f5b01a" fill-opacity="0.5">
-    <animate attributeName="fill-opacity" values="0.5;1;1;0.5;0.5;0.5" dur="1.8s" />
-  </polygon>
-  <polygon points="442.1 245.39 512 122.69 442.1 0 302.28 0 232.37 122.69 302.28 245.39 442.1 245.39" fill="#f5b01a" fill-opacity="0.5">
-    <animate attributeName="fill-opacity" values="0.5;0.5;0.5;1;1;0.5" dur="1.8s" />
-  </polygon>
-  <polygon points="442.1 517.64 512 394.95 442.1 272.25 302.28 272.25 232.37 394.95 302.28 517.64 442.1 517.64" fill="#f5b01a" fill-opacity="1">
-    <animate attributeName="fill-opacity" values="1;0.5;0.5;0.5;0.5;1" dur="1.8s" />
-  </polygon>
-</svg>`;
+    logo.innerHTML = nectarLogoAnimatedUrl;
 
     splash.appendChild(logo);
 
@@ -145,25 +142,107 @@ Would you like to clear the workspace or keep waiting?`),
   }
 };
 
+
 /**
- * The Nectar header bar.
+ * The Nectar logos
  */
-const header: JupyterFrontEndPlugin<void> = {
-  id: '@nectar/jupyterlab-theme:header',
-  autoStart: true,
-  requires: [JupyterFrontEnd.IPaths],
-  activate: (app: JupyterFrontEnd, paths: JupyterFrontEnd.IPaths) => {
-    (window as any).jp = app;
+const logo: JupyterFrontEndPlugin<void> = {
+  id: '@nectar/jupyterlab-theme:logo',
+  requires: [IThemeManager],
+  optional: [ILabShell],
+  activate: (app: JupyterFrontEnd, manager: IThemeManager, _shell: ILabShell | null) => {
+    const style = '@nectar/jupyterlab-theme/index.css';
+
+    // Wait for the app to be fully restored before setting icons
+    void app.restored.then(() => {
+      // Set the JupyterLab icons to use Nectar branding
+      // Note: We only change favicon and toolbar icon, NOT wordmark
+      // This keeps the default JupyterLab About dialog with its original branding
+      jupyterFaviconIcon.svgstr = nectarLogoUrl;
+      jupyterIcon.svgstr = nectarLogoUrl;
+      // jupyterlabWordmarkIcon.svgstr = nectarLogoUrl; // Keep original for JupyterLab About
+
+      console.log('Nectar icons updated after app restored');
+
+      // Update the favicon in the DOM
+      const favicon = document.querySelector('link[rel="icon"]') as HTMLLinkElement;
+      if (favicon) {
+        const svgBlob = new Blob([nectarLogoUrl], { type: 'image/svg+xml' });
+        const url = URL.createObjectURL(svgBlob);
+        favicon.href = url;      }
+    });
+
+    // Register the theme
+    manager.register({
+      name: 'Nectar',
+      isLight: true,
+      themeScrollbars: true,
+      load: () => manager.loadCSS(style),
+      unload: () => Promise.resolve(undefined)
+    });
+
     console.log('JupyterLab extension @nectar/jupyterlab-theme is activated!');
-    const headerWidget = ReactWidget.create(
-      React.createElement(Header, {
-        hubPrefix: paths.urls.hubPrefix,
-        hubUser: paths.urls.hubUser,
-        baseUrl: paths.urls.base
-      })
-    );
-    headerWidget.id = 'nectar-header';
-    app.shell.add(headerWidget, 'header');
+  },
+  autoStart: true
+};
+
+/**
+ * The Nectar About dialog
+ */
+const about: JupyterFrontEndPlugin<void> = {
+  id: '@nectar/jupyterlab-theme:about',
+  autoStart: true,
+  requires: [IMainMenu],
+  activate: (app: JupyterFrontEnd, mainMenu: IMainMenu) => {
+    const { commands } = app;
+    const aboutUrl = 'https://support.ehelp.edu.au/a/solutions/articles/6000261095';
+
+    // Add command for Nectar About dialog
+    const command = 'nectar:about';
+    commands.addCommand(command, {
+      label: 'About ARDC Nectar Jupyter Notebook Service',
+      execute: () => {
+        // Create dialog body
+        const body = document.createElement('div');
+        body.className = 'jp-About';
+        body.style.padding = '20px';
+
+        // Add ARDC logo (inline SVG, center-aligned)
+        const ardcLogoDiv = document.createElement('div');
+        ardcLogoDiv.innerHTML = ardcLogoUrl;
+        ardcLogoDiv.style.maxWidth = '300px';
+        ardcLogoDiv.style.marginBottom = '20px';
+        ardcLogoDiv.style.marginLeft = 'auto';
+        ardcLogoDiv.style.marginRight = 'auto';
+        // Style the SVG element inside
+        const ardcSvg = ardcLogoDiv.querySelector('svg');
+        if (ardcSvg) {
+          ardcSvg.style.width = '100%';
+          ardcSvg.style.height = 'auto';
+        }
+        body.appendChild(ardcLogoDiv);
+
+        // Add link (left-aligned)
+        const link = document.createElement('a');
+        link.className = 'jp-About-externalLinks';
+        link.href = aboutUrl;
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        link.textContent = 'Help about the ARDC Nectar Jupyter Notebook Service';
+        link.style.display = 'block';
+        link.style.marginBottom = '20px';
+        body.appendChild(link);
+
+        return showDialog({
+          title: 'ARDC Nectar Jupyter Notebook Service',
+          body: new Widget({ node: body }),
+          buttons: [Dialog.okButton()]
+        });
+      }
+    });
+
+    // Add to Help menu as the first group (rank 0) to appear at the top
+    mainMenu.helpMenu.addGroup([{ command }], 0);
   }
 };
 
@@ -171,7 +250,8 @@ const header: JupyterFrontEndPlugin<void> = {
  * Export the plugins as default.
  */
 const plugins: JupyterFrontEndPlugin<any>[] = [
-  header,
-  splash
+  logo,
+  splash,
+  about
 ];
 export default plugins;

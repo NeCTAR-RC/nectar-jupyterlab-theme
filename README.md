@@ -1,5 +1,8 @@
-# Nectar JupyterLab theme
+# ARDC Nectar Jupyter Lab theme
 
+[![Github Actions Status](https://github.com/NeCTAR-RC/nectar-jupyterlab-theme/workflows/Build/badge.svg)](https://github.com/NeCTAR-RC/nectar-jupyterlab-theme/actions/workflows/build.yml)
+
+ARDC Nectar JupyterLab theme
 
 ## Requirements
 
@@ -10,7 +13,7 @@
 To install the extension, execute:
 
 ```bash
-pip install git+https://github.com/NeCTAR-RC/nectar-jupyterlab-theme.git
+pip install https://github.com/NeCTAR-RC/nectar-jupyterlab-theme/master.zip
 ```
 
 ## Uninstall
@@ -34,11 +37,18 @@ The `jlpm` command is JupyterLab's pinned version of
 ```bash
 # Clone the repo to your local environment
 # Change directory to the nectar_jupyterlab_theme directory
-# Install package in development mode
-pip install -e "."
+
+# Set up a virtual environment and install package in development mode
+python -m venv .venv
+source .venv/bin/activate
+pip install --editable "."
+
 # Link your development version of the extension with JupyterLab
 jupyter labextension develop . --overwrite
+
 # Rebuild extension Typescript source after making changes
+# IMPORTANT: Unlike the steps above which are performed only once, do this step
+# every time you make a change.
 jlpm build
 ```
 
@@ -67,7 +77,7 @@ pip uninstall nectar_jupyterlab_theme
 
 In development mode, you will also need to remove the symlink created by `jupyter labextension develop`
 command. To find its location, you can run `jupyter labextension list` to figure out where the `labextensions`
-folder is located. Then you can remove the symlink named `@nectar/jupyterlab-theme` within that folder.
+folder is located. Then you can remove the symlink named `nectar-jupyterlab-theme` within that folder.
 
 ### Packaging the extension
 
